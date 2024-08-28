@@ -11,6 +11,8 @@ import CommingSoonTab from "./account_tabs/CommingSoonTab";
 import { useToast } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import HistoryTab from "./account_tabs/HistoryTab";
+import ava_male from '../assets/images/ava/ava_male.png'
+import ava_female from '../assets/images/ava/ava_female.png';
 
 const AccountPage = () => {
     CheckTokenRedirectHome();
@@ -41,7 +43,6 @@ const AccountPage = () => {
 
     const handleUpdateAccount = async () => {
         setLoading(true);
-        setError('');
         try {
             var updatedData = account;
             const token = localStorage.getItem('jwtToken');
@@ -159,7 +160,7 @@ const AccountPage = () => {
             <div className="grid-cols-1 md:grid-cols-4 lg:grid-cols-3 my-0 mx-auto screen1390:max-w-screen-xl xl:max-w-screen-screen1200 lg:max-w-5xl md:py-10 py-5 md:gap-[30px] xl:gap-16 px-4 md:px-[45px] xl:px-0 xl:grid">
                 <div className="md:col-span-2 lg:col-span-1">
                     <div className="bg-white px-6 md:p-4 xl:px-6 xl:py-4  xl:shadow-2xl rounded mb-8">
-                        <NameComponent />
+                        <NameComponent account={account} />
                         <div className="info__money__rating py-6 xl:border-b border-[#ECECEC]">
                             <div className="flex justify-between items-center ">
                                 <p className="md:text-base xl:text-lg font-bold not-italic relative">Tổng chi tiêu 2024</p>
@@ -367,16 +368,16 @@ AccountNav.propTypes = {
     setCurrentTab: PropTypes.func.isRequired,
 }
 
-const NameComponent = () => {
+const NameComponent = ({account}) => {
     return (
         <div className="pt-4 pb-6 xl:border-b border-[#ECECEC] flex justify-center items-center ">
             <div className="flex items-center">
                 <div className="w-[72px] h-[72px] leading-[62px] text-center rounded-full bg-[#D0D0D0] border-4 border-solid border-[#E9E9E2]">
-                    <img alt="Camera" loading="lazy" width="20" height="20" decoding="async" data-nimg="1" className="inline-block w-[20px] h-[20px] object-cover duration-500 ease-in-out group-hover:opacity-100 scale-100 blur-0 grayscale-0)" src="https://www.galaxycine.vn/_next/static/media/camera.af597ff8.png" style={{ color: "transparent" }} />
+                    <img alt="Camera" loading="lazy" decoding="async" data-nimg="1" className="inline-block rounded-full w-full h-full object-cover duration-500 ease-in-out group-hover:opacity-100 scale-100 blur-0 grayscale-0)" src={account.gender === "Male" ? ava_male : ava_female} style={{ color: "transparent" }} />
                 </div>
                 <div className="flex flex-col flex-auto">
                     <div className="flex items-start gap-[6px]">
-                        <p className="text-[18px] font-bold not-italic leading-[1.25rem] ml-3">Phan Anh Lộc
+                        <p className="text-[18px] font-bold not-italic leading-[1.25rem] ml-3">{account.name}
                             <span className="block text-xs font-light not-italic"></span>
                         </p>
                         <img alt="Logo Star Mini" loading="lazy" width="20" height="30" decoding="async" data-nimg="1" className="inline-block w-[20px] h-[30px]" src="https://cdn.galaxycine.vn/media/2020/5/15/s_1589511977688.png" style={{ color: "transparent" }} />
@@ -385,6 +386,10 @@ const NameComponent = () => {
             </div>
         </div>
     );
+}
+
+NameComponent.propTypes = {
+    account: PropTypes.object,
 }
 
 const InfoSupport = () => {
