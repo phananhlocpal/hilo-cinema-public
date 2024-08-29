@@ -77,8 +77,12 @@ const Header = () => {
         const fetchMovies = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/TheaterService');
-                const theaterNamesList = response.data.map(theater => theater.name); // Assuming 'name' is the field for theater name
-                setTheater(theaterNamesList);
+                const theaterList = response.data.map(theater => ({
+                    id: theater.id,
+                    theaterName: theater.name
+                }));
+
+                setTheater(theaterList);
             } catch (error) {
                 console.error('Error fetching movies:', error);
             }

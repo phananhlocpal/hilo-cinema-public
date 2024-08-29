@@ -1,9 +1,9 @@
 ﻿import { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import PropTypes from "prop-types";
 import MovieCardItem from '../components/common_components/comom_item/MovieCardItem';
 
-const ListMovieNowShowing = () => {
+const ListMovieNowShowing = ( {limit} ) => {
     const [movies, setMovies] = useState([]);
 
     useEffect(() => {
@@ -24,14 +24,16 @@ const ListMovieNowShowing = () => {
         fetchMovies();
     }, []);
 
+    const moviesToShow = limit ? movies.slice(0, limit) : movies;
+
     return (
         <div className='pt-5 flex justify-center items-center'>
             <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-4 gap-6 mb-10'>
-                {movies.map(({ id, title, movieUrl, imgSmall }) => (
+                {moviesToShow.map(({ id, title, movieUrl, imgSmall }) => (
                     <MovieCardItem
                         key={id}
                         title={title}
-                        imageUrl={`data:image/jpeg;base64,${imgSmall}`}
+                        imageUrl={imgSmall}
                         href={movieUrl}
                         widthCard="250px"
                         heightCard="400px"
@@ -41,5 +43,9 @@ const ListMovieNowShowing = () => {
         </div>
     );
 };
+
+ListMovieNowShowing.propTypes = {
+    limit: PropTypes.number,
+}
 
 export default ListMovieNowShowing;
